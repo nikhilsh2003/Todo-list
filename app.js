@@ -23,6 +23,8 @@ const itemsSchema = new mongoose.Schema({
   }
 });
 
+const date = new Date();
+
 // creating Database
 
 const Item = mongoose.model("Item", itemsSchema);
@@ -54,7 +56,7 @@ app.get("/", function (req, res) {
   
   Item.find({}, function (err, foundItems) {
     if(foundItems.length)
-      res.render('list', { listTitle: "Today", newListItems: foundItems });
+      res.render('list', { listTitle: "Today", newListItems: foundItems , presYear: date.getFullYear() });
     else {
       Item.insertMany([item1, item2, item3], function (error) {
         if (error) console.log(error);
@@ -123,7 +125,7 @@ app.get("/:page", function (req, res) {
         listFound.items.push(item3);
         listFound.save();
       }
-      res.render("list", { listTitle: listFound.name, newListItems: listFound.items });
+      res.render("list", { listTitle: listFound.name, newListItems: listFound.items , presYear: date.getFullYear() });
     }
   });
 });
